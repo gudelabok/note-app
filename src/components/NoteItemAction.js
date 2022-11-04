@@ -1,5 +1,5 @@
 import React from "react";
-import DeleteButton from "./deleteButton";
+import DeleteButton from "./DeleteButton";
 import ArchivedButton from "./ArchivedButton";
 
 function NoteItemAction({ id, archived }) {
