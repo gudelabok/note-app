@@ -2,7 +2,7 @@ import React from "react";
 import NoteList from "./NoteList";
 import NoteListEmptyMessage from "./NoteListEmpyMessage";
 import NoteInput from "./NoteInput";
-import { getInitialData } from '../utils/index.js'
+import { getInitialData, showFormattedDate } from '../utils/index.js'
 import "../styles/style.css";
 
 
@@ -15,6 +15,7 @@ class NoteApp extends React.Component {
 
         this.onDeleteEventHandler = this.onDeleteEventHandler.bind(this)
         this.onChangeArchiveHandler = this.onChangeArchiveHandler.bind(this)
+        this.addContactHandler = this.addContactHandler.bind(this)
     }
 
     onDeleteEventHandler(id) {
@@ -28,6 +29,21 @@ class NoteApp extends React.Component {
 
 
     }
+    addContactHandler({ title, body }) {
+        this.setState((prevStates) => {
+            return {
+                notes: [
+                    ...prevStates.notes, {
+                        id: +new Date(),
+                        title,
+                        body,
+                        archived: false,
+                        createdAt: new Date().toISOString(),
+                    }
+                ]
+            }
+        })
+    }
 
 
 
@@ -39,7 +55,7 @@ class NoteApp extends React.Component {
         return (
             <>
                 <div className="note-app__body">
-                    <NoteInput />
+                    <NoteInput addNote={this.addContactHandler} />
                     <h2>Catatan Aktif</h2>
                     {active.length > 0 ? <NoteList notes={active} onDelete={this.onDeleteEventHandler} onArchive={this.onChangeArchiveHandler} /> : <NoteListEmptyMessage message="Tidak Ada Catatan Aktif" />}
                     <h2>Arsip</h2>
